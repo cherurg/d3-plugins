@@ -59,8 +59,34 @@
     matrixObj.has = matrixObj.hasEdge = function(i, j) {
       return !!matrix[i][j];
     };
-    matrixObj.outE = matrixObj.outEdges = function(i) {};
-    matrixObj.inE = matrixObj.inEdges = function(i) {};
+    matrixObj.outE = matrixObj.outEdges = function(i) {
+      var edge, _i, _len, _ref, _results;
+      _ref = matrix[i];
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        edge = _ref[_i];
+        if (edge) {
+          _results.push(edge);
+        }
+      }
+      return _results;
+    };
+    matrixObj.inE = matrixObj.inEdges = function(j) {
+      var row, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = matrix.length; _i < _len; _i++) {
+        row = matrix[_i];
+        if (row[j]) {
+          _results.push(row[j]);
+        }
+      }
+      return _results;
+    };
+    matrixObj.connectedEdges = matrixObj.connectedE = function(i) {
+      return matrixObj.inEdges(i).concat(matrixObj.outEdges(i));
+    };
+    matrixObj.inOutE = matrixObj.inOutEdges = matrixObj.connectedEdges;
+    matrixObj.outInE = matrixObj.outInEdges = matrixObj.connectedEdges;
     return matrixObj;
   };
   d3.graph.listToMatrix = function(links) {};

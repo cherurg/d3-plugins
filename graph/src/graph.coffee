@@ -47,12 +47,20 @@
     matrixObj.has = matrixObj.hasEdge = (i, j) -> !!matrix[i][j]
 
     matrixObj.outE = matrixObj.outEdges = (i) ->
+      edge for edge in matrix[i] when edge
 
-    matrixObj.inE = matrixObj.inEdges = (i) ->
+    matrixObj.inE = matrixObj.inEdges = (j) ->
+      row[j] for row in matrix when row[j]
+
+    matrixObj.connectedEdges = matrixObj.connectedE = (i) ->
+      matrixObj.inEdges(i).concat(matrixObj.outEdges(i))
+    matrixObj.inOutE = matrixObj.inOutEdges = matrixObj.connectedEdges
+    matrixObj.outInE = matrixObj.outInEdges = matrixObj.connectedEdges
 
     return matrixObj
 
   d3.graph.listToMatrix = (links) ->
+
 
   d3.graph.matrixToList = (matrix) ->
 )(d3)
