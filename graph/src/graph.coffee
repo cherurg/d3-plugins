@@ -1,0 +1,58 @@
+((d3) ->
+  d3.graph = (graph) ->
+    graph = {} unless graph?
+    nodes = []
+    links = []
+
+    graph.description = -> 'd3.graph with ' + nodes.length + ' nodes and ' +
+      links.length + ' links'
+
+    graph.nodes = (_nodes) ->
+      return nodes unless _nodes?
+      nodes = _nodes
+      return this
+
+    graph.links = (_links) ->
+      return links unless _links?
+      links = _links
+      return this
+
+    graph.matrix = (_matrix) ->
+
+    return graph
+
+  d3.graph.matrix = (matrix) ->
+    matrix = [] unless matrix?
+
+    matrixObj = (i, j) -> matrix[i][j]
+
+    matrixObj.description = -> matrix.length + ' adjacency matrix'
+
+    matrixObj.data = matrixObj.matrix = (_matrix) ->
+      return matrix unless _matrix?
+      matrix = _matrix
+      return this
+
+    matrixObj.set = matrixObj.addEdge = (i, j, value) ->
+      console.warn 'addEdge: argument "value" is 0. It could lead to
+        unpredictable behavior' if value is 0
+
+      matrix[i][j] = if value? then value else 1
+      return this
+
+    matrixObj.remove = matrixObj.removeEdge = (i, j) ->
+      matrix[i][j] = 0
+      return this
+
+    matrixObj.has = matrixObj.hasEdge = (i, j) -> !!matrix[i][j]
+
+    matrixObj.outE = matrixObj.outEdges = (i) ->
+
+    matrixObj.inE = matrixObj.inEdges = (i) ->
+
+    return matrixObj
+
+  d3.graph.listToMatrix = (links) ->
+
+  d3.graph.matrixToList = (matrix) ->
+)(d3)
