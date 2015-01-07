@@ -60,7 +60,17 @@
     return matrixObj
 
   d3.graph.listToMatrix = (links) ->
-
+    max = d3.max links, (d) -> d3.max([d.source, d.target])
+    matrix = ((0 for i in [1..max]) for i in [1..max])
+    for link in links
+      matrix[links.source][link.target] = 1
+    return matrix
 
   d3.graph.matrixToList = (matrix) ->
+    links = []
+    for row, i in matrix
+      for element, j in row
+        links.push source: i, target: j, value: matrix[i][j]
+    return links
+
 )(d3)

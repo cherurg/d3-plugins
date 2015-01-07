@@ -89,8 +89,48 @@
     matrixObj.outInE = matrixObj.outInEdges = matrixObj.connectedEdges;
     return matrixObj;
   };
-  d3.graph.listToMatrix = function(links) {};
-  return d3.graph.matrixToList = function(matrix) {};
+  d3.graph.listToMatrix = function(links) {
+    var i, link, matrix, max, _i, _len;
+    max = d3.max(links, function(d) {
+      return d3.max([d.source, d.target]);
+    });
+    matrix = (function() {
+      var _i, _results;
+      _results = [];
+      for (i = _i = 1; 1 <= max ? _i <= max : _i >= max; i = 1 <= max ? ++_i : --_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (i = _j = 1; 1 <= max ? _j <= max : _j >= max; i = 1 <= max ? ++_j : --_j) {
+            _results1.push(0);
+          }
+          return _results1;
+        })());
+      }
+      return _results;
+    })();
+    for (_i = 0, _len = links.length; _i < _len; _i++) {
+      link = links[_i];
+      matrix[links.source][link.target] = 1;
+    }
+    return matrix;
+  };
+  return d3.graph.matrixToList = function(matrix) {
+    var element, i, j, links, row, _i, _j, _len, _len1;
+    links = [];
+    for (i = _i = 0, _len = matrix.length; _i < _len; i = ++_i) {
+      row = matrix[i];
+      for (j = _j = 0, _len1 = row.length; _j < _len1; j = ++_j) {
+        element = row[j];
+        links.push({
+          source: i,
+          target: j,
+          value: matrix[i][j]
+        });
+      }
+    }
+    return links;
+  };
 })(d3);
 
 //# sourceMappingURL=graph.js.map
